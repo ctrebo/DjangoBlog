@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1> {{blog.name}} </h1>
+<hr>
+<p class="mb-3"><strong>Post date: </strong> {{blog.post_date}} </p>
+<p class="mb-3"><strong>Author: </strong> <a href="{{blog.author.get_absolute_url}}">{{blog.author}}</a> </p>
+<p class="mb-1"><strong>Description:</strong></p>
+<p> {{blog.description}} </p>
+
+<section class="mt-5 ml-5">
+    <h3>Comments</h3>
+    {% for comment in blog.blogcomment_set.all %}
+    <hr>
+    <div><p>{{comment.author}} ({{comment.post_date}}) - {{comment.description}}{% if user.is_authenticated and comment.author|stringformat:"s" == user.username|stringformat:"s" %}  <a href="{% url 'delete-comment' comment.id %}" class="ml-5 d-inline"> Delete Comment </a> {% endif %} </p> </div>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <!-- make option to delete comment -->
+    <a href="{% url 'create-comment' blog.id %}">Add a new comment</a></p>
+    {% endif %}
+</section>
+{% endblock %}

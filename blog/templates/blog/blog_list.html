@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>All blogs</h1>
+
+            <ul>
+                {% for blog in blog_list %}
+                    <li><a href=" {{ blog.get_absolute_url }} "> {{blog.name}} </a> ( {{blog.post_date}} ) -- <a href="{{blog.author.get_absolute_url}}">{{blog.author}}</a> {% if user.is_authenticated and blog.author|stringformat:"s" == user.username|stringformat:"s" %}  <p class="ml-5 d-inline"><a href="{% url 'update-blog' blog.pk %}"> Update Blog </a> - <a href="{% url 'delete-blog' blog.pk %}">Delete Blog</a> </p> {% endif %}</li>
+                    {% if not forloop.last %} <hr> {% endif %}
+                {% endfor %}
+            </ul>    
+        </div>
+    </div>
+    
+
+{% endblock %}

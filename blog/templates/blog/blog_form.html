@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Create/Update Blog</h1>
+    <form action='' method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" vlaue="Submit">
+    </form>
+{% endblock %}

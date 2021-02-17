@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1> New Blogs</h1>
+
+<section>
+    <article>
+        <ul>
+            {% for blog in blog_list %}
+            <li><a href="{{blog.get_absolute_url}}">{{blog.name}}</a> -- <a href="{{blog.author.get_absolute_url}}">{{blog.author}}</a> -- {{blog.post_date}} </li>
+            <!-- <p>8 + 3 = {{ 8|add:3 }}</p> -->
+            {% endfor %}
+        </ul>
+    </article>
+</section>
+{% endblock %}

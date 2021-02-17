@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <section>
+        <h1> Blogger: {{blogger.user}} </h1>        
+    </section>
+    <section class="mt-4">
+        <h3>Bio</h3>
+        <i>{{blogger.bio}}</i>
+    </section>
+    <section class="mt-4">
+        <h3>Blogs list</h3>
+        <ul>
+            {% for blog in blog_list %}
+                <li><a href="{{blog.get_absolute_url}}">{{blog.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    
+{% endblock %}
