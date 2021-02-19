@@ -1,9 +1,10 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <section>
-        <h1> Blogger: {{blogger.user}} </h1>        
-    </section>
+    <div class="header">
+        <img class="img-profpic" src="{{blogger.prof_picture.url}}" alt="alt">
+        <h1 class="inline"> Blogger: {{blogger.user}} </h1>       
+    </div>
     <section class="mt-4">
         <h3>Bio</h3>
         <i>{{blogger.bio}}</i>

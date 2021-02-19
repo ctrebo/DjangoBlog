@@ -1,12 +1,24 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Username: {{user.username}}</h1>
-<section class="ml-4">
-    <article class="mt-4">
+    <div class="row">
+        <div class="col-4">
+            <img class="img-profpic"  src="{{blogger.prof_picture.url}}" alt="alt" id="img-profilpage">
+        </div>
+        <div class="col-8 header1">
+            <article class="pt-3">
+                <h1 class="font-weight-light " >{{user.username}}</h1>                  
+            </article>
+            <article class="mt-3">
+                <h4>{{num_blogs_user}} {% if num_blogs_user != 1 %} Blogs {% else %} Blog {% endif %}</h4>     
+            </article>
+        </div>
+    </div>    
+<section class="mt-5">
+    <article class="">
         <h3>Bio:</h3>
         <p>{{blogger.bio}}</p>
-        <button class="mt-3 btn btn-outline-success btn-profil"><a class="hi" href="{% url 'update-blogauthor' blogger.pk%}">Update Bio</a></button>
+        <a class="btn btn-outline-success text-decoration-none" href="{% url 'update-blogauthor' blogger.pk%}">Update Bio</a>
     </article>
     
     <article class="mt-5">
