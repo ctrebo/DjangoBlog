@@ -52,6 +52,8 @@ class BlogListbyAuthorView(generic.ListView):
         context = super(BlogListbyAuthorView, self).get_context_data(**kwargs)
         # Get the blogger object from the "pk" URL parameter and add it to the context
         context['blogger'] = get_object_or_404(BlogAuthor, pk = self.kwargs['pk'])
+        context["height"] = "200px"
+        context["width"] = "200px"
         return context
 
 
@@ -87,11 +89,15 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
 
 class BlogCommentDelete(LoginRequiredMixin, DeleteView):
     model = BlogComment
-    success_url = reverse_lazy("blogs")
 
+    def get_success_url(self):
+        return reverse("blog-detail", kwargs={'pk': self.kwargs['pk'],})
 class BlogUpdate(LoginRequiredMixin, UpdateView):
     model = Blog
-    fields = ['description']
+    fields = ['name', 'description']
+
+    success_url = reverse_lazy("blogs")
+
 
 class BlogDelete(LoginRequiredMixin, DeleteView):
     model = Blog
@@ -99,7 +105,9 @@ class BlogDelete(LoginRequiredMixin, DeleteView):
 
 class BlogAuthorUpdate(LoginRequiredMixin, UpdateView):
     model = BlogAuthor
-    fields = ['bio']
+    fields = ['bio', 'prof_picture']
+
+    success_url = reverse_lazy("profpage-user")
 
 
 class ProfilPageListView(LoginRequiredMixin, generic.ListView):
@@ -116,6 +124,8 @@ class ProfilPageListView(LoginRequiredMixin, generic.ListView):
         """
         context = super(ProfilPageListView, self).get_context_data()
         context["blogger"] = BlogAuthor.objects.get(user=self.request.user)
+        # authors = BlogAuthor.objects.get(user=self.request.user)
+        context["num_blogs_user"] = Blog.objects.filter(author__user=self.request.user).count()
         return context
 
 class SeeNewBlogsListView(LoginRequiredMixin, generic.ListView):
@@ -123,7 +133,6 @@ class SeeNewBlogsListView(LoginRequiredMixin, generic.ListView):
     template_name = "blog/see_new_blog.html"
 
     def get_queryset(self):
-        authors = BlogAuthor.objects.get(user=self.request.user)
-        return Blog.objects.all().exclude(author=authors).filter(post_date__gte = datetime.date.today() - datetime.timedelta(hours=24))
+        return Blog.objects.all().exclude(author__user=self.request.user).filter(post_date__gte = datetime.date.today() - datetime.timedelta(hours=24))
 
 
