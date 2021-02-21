@@ -29,9 +29,8 @@ body {
 
 
 #img-profilpage {
-    /* float: left; */
-    width: 150px;
-    height: 150px;
+    width: 77px;
+    height: 77px;
 }
 
 
@@ -60,4 +59,12 @@ nav .img-profpic {
     /* right: 0; */
     height: 20.4px;
     width: 20.4px;
+}
+
+
+@media (min-width: 768px) {
+    #img-profilpage {
+        height: 150px;
+        width: 150px;
+    }    
 }
