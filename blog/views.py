@@ -20,9 +20,15 @@ def index(request):
 
 
 class BlogListView(generic.ListView):
+    """
+    generic class-based view for a list of blogs
+    """
     model = Blog
 
 class BlogDetailView(generic.DetailView):
+    """
+    Generic class-based view for a detailed description of a blog
+    """
     model = Blog
 
 class BlogAuthorListView(generic.ListView):
@@ -58,6 +64,9 @@ class BlogListbyAuthorView(generic.ListView):
 
 
 class BlogCommentCreate(LoginRequiredMixin, CreateView):
+    """
+    Generic edit view used to Create comments
+    """
     model = BlogComment
     fields = ['description',]
 
@@ -88,11 +97,21 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
         return reverse("blog-detail", kwargs={'pk': self.kwargs['pk'],})
 
 class BlogCommentDelete(LoginRequiredMixin, DeleteView):
+    """
+    Generic edit view used to delete comments
+    """
     model = BlogComment
 
     def get_success_url(self):
+        """
+        When deleting the comments is successful return the user to url written below
+        """
         return reverse("blog-detail", kwargs={'pk': self.kwargs['pk'],})
+
 class BlogUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Generic edit view used to update blogs
+    """
     model = Blog
     fields = ['name', 'description']
 
@@ -100,10 +119,16 @@ class BlogUpdate(LoginRequiredMixin, UpdateView):
 
 
 class BlogDelete(LoginRequiredMixin, DeleteView):
+    """
+    Generic edit view used to delete blogs
+    """
     model = Blog
     success_url = reverse_lazy("blogs")
 
 class BlogAuthorUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Generic edit view used to update BlogAuthors
+    """
     model = BlogAuthor
     fields = ['bio', 'prof_picture']
 
@@ -111,10 +136,17 @@ class BlogAuthorUpdate(LoginRequiredMixin, UpdateView):
 
 
 class ProfilPageListView(LoginRequiredMixin, generic.ListView):
+    """
+    generic class-based view for the users BlogAuthor data
+    """
+
     model = Blog
     template_name = "blog/profil_page_by_user.html"
 
     def get_queryset(self):
+        """
+        get queryset of blogs that are written by the logged in user
+        """
         blog_author = BlogAuthor.objects.get(user = self.request.user)
         return Blog.objects.filter(author=blog_author)
 
@@ -129,10 +161,17 @@ class ProfilPageListView(LoginRequiredMixin, generic.ListView):
         return context
 
 class SeeNewBlogsListView(LoginRequiredMixin, generic.ListView):
+    """
+    Generic edit class-based view for a list of Blogs written in a maximal time ago from the current time(logged in users blog excluded)
+    """
+    
     model = Blog
     template_name = "blog/see_new_blog.html"
 
     def get_queryset(self):
+        """
+        Add queryset of blogs written a maximum of 24h ago
+        """
         return Blog.objects.all().exclude(author__user=self.request.user).filter(post_date__gte = datetime.date.today() - datetime.timedelta(hours=24))
 
 
