@@ -76,7 +76,7 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
         """
         # Call the base implementation first to get a context
         context = super(BlogCommentCreate, self).get_context_data(**kwargs)
-        context["blog"] = get_object_or_404(Blog, pk = self.kwargs['pk']) 
+        context["blog"] = get_object_or_404(Blog, pk=self.kwargs['pk']) 
         return context
         
     def form_valid(self, form):
@@ -86,7 +86,7 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
         #Add logged-in user as author of comment
         form.instance.author = self.request.user
         #Associate comment with blog based on passed id
-        form.instance.blog=get_object_or_404(Blog, pk = self.kwargs['pk'])
+        form.instance.blog = get_object_or_404(Blog, pk=self.kwargs['pk'])
         # Call super-class form validation behaviour
         return super(BlogCommentCreate, self).form_valid(form)
 
@@ -95,6 +95,27 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
         After posting comment return to blog page
         """
         return reverse("blog-detail", kwargs={'pk': self.kwargs['pk'],})
+
+class BlogCreate(LoginRequiredMixin, CreateView):
+    """
+    Generic edit class-based view to create Blogs
+    """
+    model = Blog
+    fields = ["name", "description"]
+    success_url = reverse_lazy('blogs')
+
+    def form_valid(self, form):
+        #take logged-in user as BlogAuthor and add it as Blogauthor to blog
+        blog_author = BlogAuthor.objects.get(user=self.request.user)
+        form.instance.author = blog_author
+        # Call super-class form validation behaviour
+        return super(BlogCreate, self).form_valid(form)
+    
+    # def get_success_url(self):
+    #     """
+    #     After creating blog return to home page
+    #     """
+    #     return reverse("blog-detail", kwargs={'pk': self.kwargs['pk'],})
 
 class BlogCommentDelete(LoginRequiredMixin, DeleteView):
     """

@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="text-center"> New Blogs</h1>
 
-<section class="mt-5">
+<section>
     <article>
         <ul>
             {% for blog in blog_list %}
@@ -11,6 +11,8 @@
             {% if not forloop.last %}
             <hr>
             {% endif %}
+            {% empty %}
+            <h4 class="pt-5">There are no new blogs</h4>
             {% endfor %}
         </ul>
     </article>

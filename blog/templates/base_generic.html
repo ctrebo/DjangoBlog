@@ -46,6 +46,9 @@
       </ul>
       <ul class="navbar-nav mb-2 mb-lg-0 navbar-right ml-auto">
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'create-blog' %}"><i class="fa fa-15 fa-plus"></i></i></a>          
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'new-blogs' %}"><i class="fa fa-15 fa-home"></i></a>
         </li>
         {% if user.is_authenticated %}
