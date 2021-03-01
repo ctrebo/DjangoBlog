@@ -27,13 +27,13 @@
             <p class="navbar-text text-white mb-0" href="#"> User: {{user.username}}</p>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Logout</a>
+            <a class="nav-link" href="{% url 'logout'%}">Logout</a>
           </li>
-         {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="">Login</a>
-        </li>
-        {% endif %}
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login'%}">Login</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'index'%}">Home</a>
           </li>

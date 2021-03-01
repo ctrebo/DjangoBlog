@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 
 from . import views
 
@@ -16,4 +17,6 @@ urlpatterns = [
     path("profilpage/", views.ProfilPageListView.as_view(), name="profpage-user"),
     path("blog/newblogs/", views.SeeNewBlogsListView.as_view(), name="new-blogs"),
     path("blog/create/", views.BlogCreate.as_view(), name="create-blog"),
+    url(r'^signup/$', views.signup, name='signup'),
+
 ]
