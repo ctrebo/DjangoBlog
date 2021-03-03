@@ -89,7 +89,9 @@ class TestBlogComment(TestCase):
         user=User.objects.create_user('foo', password='bar')
         blog_author = BlogAuthor.objects.create(user=user, bio="My bio")
         blog = Blog.objects.create(name="test blog", author=blog_author, description="The description is the desctiption")
-        blog_comment = BlogComment(description="Blog description", author=user, blog=blog)
+        blog_comment = BlogComment.objects.create(description="Blog description", author=user, blog=blog)
+
+        
     
     def test_description_label(self):
         blog_comment = BlogComment.objects.get(id=1)
@@ -107,8 +109,8 @@ class TestBlogComment(TestCase):
         self.assertEqual(field_label, "blog")
 
     def test_description_max_length(self):
-        blog = Blog.objects.get(id=1)
-        max_length = blog._meta.get_field('description').max_length
+        blog_comment = BlogComment.objects.get(id=1)
+        max_length = blog_comment._meta.get_field('description').max_length
         self.assertEqual(max_length, 1000)
 
 
