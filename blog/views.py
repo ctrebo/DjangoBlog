@@ -47,19 +47,19 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-class BlogListView(generic.ListView):
+class BlogListView(LoginRequiredMixin, generic.ListView):
     """
     generic class-based view for a list of blogs
     """
     model = Blog
 
-class BlogDetailView(generic.DetailView):
+class BlogDetailView(LoginRequiredMixin, generic.DetailView):
     """
     Generic class-based view for a detailed description of a blog
     """
     model = Blog
 
-class BlogAuthorListView(generic.ListView):
+class BlogAuthorListView(LoginRequiredMixin, generic.ListView):
     model = BlogAuthor
 
 class BlogListbyAuthorView(generic.ListView):
