@@ -62,12 +62,11 @@ class BlogDetailView(LoginRequiredMixin, generic.DetailView):
 class BlogAuthorListView(LoginRequiredMixin, generic.ListView):
     model = BlogAuthor
 
-class BlogListbyAuthorView(generic.ListView):
+class BlogListbyAuthorView(LoginRequiredMixin, generic.ListView):
     """
     Generic class-based view for a list of blogs posted by a particular BlogAuthor.
     """
     model = Blog
-    paginate_by = 5
     template_name ='blog/blog_list_by_author.html'
     
     def get_queryset(self):

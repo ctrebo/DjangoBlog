@@ -154,4 +154,73 @@ class BlogListbyAuthorViewTest(TestCase):
 
         self.assertTemplateUsed(response, "blog/blog_list_by_author.html")
 
+class ProfilPageListView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
 
+        test_user1.save()
+        test_user2.save()
+        
+        blog_author = BlogAuthor.objects.create(user=test_user1, bio="My bio")
+        blog = Blog.objects.create(name="test blog", author=blog_author, description="The description is the desctiption")
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('profpage-user'))
+        self.assertRedirects(response, '/accounts/login/?next=/blog/profilpage/')
+    
+    def test_view_url_exists_at_desired_location(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get("/blog/profilpage/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('profpage-user'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_uses_correct_template(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('profpage-user'))
+
+        # Check that we got a response "success"
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "blog/profil_page_by_user.html")
+
+
+class SeeNewBlogsListViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+
+        test_user1.save()
+        test_user2.save()
+        
+        blog_author = BlogAuthor.objects.create(user=test_user1, bio="My bio")
+        blog = Blog.objects.create(name="test blog", author=blog_author, description="The description is the desctiption")
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('new-blogs'))
+        self.assertRedirects(response, '/accounts/login/?next=/blog/newblogs/')
+    
+    def test_view_url_exists_at_desired_location(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get("/blog/newblogs/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('new-blogs'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_uses_correct_template(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('new-blogs'))
+
+        # Check that we got a response "success"
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "blog/see_new_blog.html")

@@ -15,7 +15,7 @@ urlpatterns = [
     path("blog/<int:pk>/delete/", views.BlogDelete.as_view(), name="delete-blog"),
     path("bloggers/<int:pk>/update/", views.BlogAuthorUpdate.as_view(), name="update-blogauthor"),
     path("profilpage/", views.ProfilPageListView.as_view(), name="profpage-user"),
-    path("blog/newblogs/", views.SeeNewBlogsListView.as_view(), name="new-blogs"),
+    path("newblogs/", views.SeeNewBlogsListView.as_view(), name="new-blogs"),
     path("blog/create/", views.BlogCreate.as_view(), name="create-blog"),
     url(r'^signup/$', views.signup, name='signup'),
 
