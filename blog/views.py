@@ -3,12 +3,15 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
+from django.http import Http404
+
 
 from .models import BlogComment, Blog, BlogAuthor
 import datetime
 #libraries for signup
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+
 
 
 
@@ -73,10 +76,13 @@ class BlogListbyAuthorView(LoginRequiredMixin, generic.ListView):
         """
         Return list of Blog objects created by BlogAuthor (author id specified in URL)
         """
-        id = self.kwargs['pk']
-        target_author=get_object_or_404(BlogAuthor, pk = id)
-        return Blog.objects.filter(author=target_author)
-        
+        try:
+            id = self.kwargs['pk']
+            target_author=get_object_or_404(BlogAuthor, pk = id)
+            return Blog.objects.filter(author=target_author)
+        except MyModel.DoesNotExist:
+            raise Http404("No MyModel matches the given query.")
+
     def get_context_data(self, **kwargs):
         """
         Add BlogAuthor to context so they can be displayed in the template
@@ -138,11 +144,6 @@ class BlogCreate(LoginRequiredMixin, CreateView):
         # Call super-class form validation behaviour
         return super(BlogCreate, self).form_valid(form)
     
-    # def get_success_url(self):
-    #     """
-    #     After creating blog return to home page
-    #     """
-    #     return reverse("blog-detail", kwargs={'pk': self.kwargs['pk'],})
 
 class BlogCommentDelete(LoginRequiredMixin, DeleteView):
     """
@@ -195,8 +196,11 @@ class ProfilPageListView(LoginRequiredMixin, generic.ListView):
         """
         get queryset of blogs that are written by the logged in user
         """
-        blog_author = BlogAuthor.objects.get(user = self.request.user)
-        return Blog.objects.filter(author=blog_author)
+        try:
+            blog_author = BlogAuthor.objects.get(user = self.request.user)
+            return Blog.objects.filter(author=blog_author)
+        except MyModel.DoesNotExist:
+            raise Http404("No MyModel matches the given query.")
 
     def get_context_data(self):
         """
@@ -220,6 +224,9 @@ class SeeNewBlogsListView(LoginRequiredMixin, generic.ListView):
         """
         Add queryset of blogs written a maximum of 24h ago
         """
-        return Blog.objects.all().exclude(author__user=self.request.user).filter(post_date__gte = datetime.date.today() - datetime.timedelta(hours=24))
+        try:
+            return Blog.objects.all().exclude(author__user=self.request.user).filter(post_date__gte = datetime.date.today() - datetime.timedelta(hours=24))
+        except MyModel.DoesNotExist:
+            # raise Http404("No MyModel matches the given query.")
 
 
