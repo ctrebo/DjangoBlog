@@ -12,7 +12,7 @@ class BlogAuthor(models.Model):
     Model representing a blogger.
     """
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
-    bio = models.TextField(max_length=400, help_text="Enter your bio details here.")
+    bio = models.TextField(max_length=400, help_text="Enter your bio details here.", blank=True)
     prof_picture = models.ImageField(upload_to ='pp_pics/', height_field=None, width_field=None, default="default.jpg")
 
     class Meta:
