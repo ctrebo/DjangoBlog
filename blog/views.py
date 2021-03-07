@@ -227,6 +227,6 @@ class SeeNewBlogsListView(LoginRequiredMixin, generic.ListView):
         try:
             return Blog.objects.all().exclude(author__user=self.request.user).filter(post_date__gte = datetime.date.today() - datetime.timedelta(hours=24))
         except MyModel.DoesNotExist:
-            # raise Http404("No MyModel matches the given query.")
+            raise Http404("No MyModel matches the given query.")
 
 
