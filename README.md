@@ -28,3 +28,14 @@ clone repository in new made folder
 git clone https://github.com/ctrebo/DjangoBlog
 ```
 
+open blog/settings.py, delete line 16 and 17. Then in settings.py search 'SECRET_KEY' and replace ´´´str(os.getenv('SECRET_KEY'))´´´ with the secret key of your choice
+
+go to the project root and run migrations
+```
+python manage.py migrate
+```
+
+at the end start the server
+```
+python manage.py runserver
+```
