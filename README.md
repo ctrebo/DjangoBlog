@@ -24,13 +24,13 @@ pip install django Pillow
 ```
 
 
-clone repository in new created folder
+clone repository
 ```
 git clone https://github.com/ctrebo/DjangoBlog
 ```
 
 
-open blog/settings.py, delete line 16 and 17. Then in settings.py search ```SECRET_KEY``` and replace ```str(os.getenv('SECRET_KEY'))``` with the secret key of your choice
+open djblog/settings.py, delete line 16 and 17. Then in settings.py search ```SECRET_KEY``` and replace ```str(os.getenv('SECRET_KEY'))``` with the secret key of your choice
 
 
 go to the project root and run migrations
